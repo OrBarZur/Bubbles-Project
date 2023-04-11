@@ -91,7 +91,7 @@ class Board:
     def explosion(self, i, j):
         circles_around_i, circles_around_j = self.update_arounds(i, j)
 
-        for t in xrange(1, len(circles_around_i)):
+        for t in range(1, len(circles_around_i)):
             if 0 <= circles_around_i[t] <= self.rows - 1 and 0 <= circles_around_j[t] <= self.cols - 1:
                 if (not self.board[circles_around_i[t]][circles_around_j[t]].exploded) and self.board[circles_around_i[t]][circles_around_j[t]].color == self.cur_cir.color:
                     self.count_exploded += 1
@@ -121,15 +121,15 @@ class Board:
     def check_explosion_floating(self, i, j):
         circles_around_i, circles_around_j = self.update_arounds(i, j)
 
-        for t in xrange(0, len(circles_around_i)):
+        for t in range(0, len(circles_around_i)):
             if 0 <= circles_around_i[t] <= self.rows - 1 and 0 <= circles_around_j[t] <= self.cols - 1:
                 if self.board[circles_around_i[t]][circles_around_j[t]].check_floating and self.board[circles_around_i[t]][circles_around_j[t]].color != self.white:
                     self.board[circles_around_i[t]][circles_around_j[t]].check_floating = False
                     self.check_explosion_floating(circles_around_i[t], circles_around_j[t])
 
     def exploses_floating_circles(self):
-        for i in xrange(0, self.rows):
-            for j in xrange(0, self.cols):
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
                 if self.board[i][j].check_floating:
                     if self.board[i][j].color != self.white:
                         self.board[i][j].color = self.white
@@ -147,8 +147,8 @@ class Board:
 
     def release_random_color(self):
         colors_update = []
-        for i in xrange(0, self.rows):
-            for j in xrange(0, self.cols):
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
                 if self.board[i][j].color != self.white and self.board[i][j].color not in colors_update:
                     colors_update.append(self.board[i][j].color)
         self.colors = colors_update
@@ -182,7 +182,7 @@ class Board:
         circles_around_i, circles_around_j = self.update_arounds(i, j)
         first_white = True
         min_dist_t = 0
-        for t in xrange(1, len(circles_around_i)):
+        for t in range(1, len(circles_around_i)):
             if 0 <= circles_around_i[t] <= self.rows - 1 and 0 <= circles_around_j[t] <= self.cols - 1:
                 if self.board[i][j].color != self.white:
                     self.board[i][j].draw_circle(False)
@@ -206,17 +206,17 @@ class Board:
             return degrees
 
     def print_board(self):
-        for i in xrange(0, self.rows):
-            for j in xrange(0, self.cols):
-                print self.board[i][j].exploded,
-            print "\n"
-        print self.count_exploded
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
+                print(self.board[i][j].exploded,)
+            print("\n")
+        print(self.count_exploded)
 
     def check_keep_moving(self, closest_i, closest_j, degrees):
         circles_around_i, circles_around_j = self.update_arounds(closest_i, closest_j)
         keep_moving = True
 
-        for t in xrange(0, len(circles_around_i)):
+        for t in range(0, len(circles_around_i)):
             if 0 <= circles_around_i[t] <= self.rows - 1 and 0 <= circles_around_j[t] <= self.cols - 1:
                 i = circles_around_i[t]
                 j = circles_around_j[t]
@@ -229,25 +229,25 @@ class Board:
         return keep_moving
 
     def out_of_tries(self):
-        for i in xrange(self.rows - 2, -1, -1):
-            for j in xrange(0, self.cols):
+        for i in range(self.rows - 2, -1, -1):
+            for j in range(0, self.cols):
                 if self.board[i][j].color != self.white:
                     self.board[i + 1][j].color = self.board[i][j].color
                     self.board[i + 1][j].draw_circle(False)
 
-        for j in xrange(0, self.cols):
+        for j in range(0, self.cols):
             self.board[0][j] = Circle(self.r, self.x0 + (self.interval + 2)*j*self.r, self.y0, self.random_color(0), self.screen)
 
     def draw_to_draw(self):
-        for i in xrange(0, self.rows):
-            for j in xrange(0, self.cols):
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
                 if self.board[i][j].color != self.white and self.board[i][j].to_draw:
                     self.board[i][j].to_draw = False
                     self.board[i][j].draw_circle(False)
 
     def draw_around_circles(self, i, j):
         circles_around_i, circles_around_j = self.update_arounds(i, j)
-        for t in xrange(0, len(circles_around_i)):
+        for t in range(0, len(circles_around_i)):
             if 0 <= circles_around_i[t] <= self.rows - 1 and 0 <= circles_around_j[t] <= self.cols - 1:
                 if self.board[circles_around_i[t]][circles_around_j[t]].color != self.white:
                     self.board[circles_around_i[t]][circles_around_j[t]].draw_circle(False)
@@ -298,7 +298,7 @@ class Board:
 
     def check_lose(self):
         lose = False
-        for j in xrange(0, self.cols):
+        for j in range(0, self.cols):
             if self.board[self.rows - 1][j].color != self.white:
                 lose = True
         if lose:
@@ -319,7 +319,7 @@ class Board:
         self.first_3_coors = [[cur_cir_i, cur_cir_j]]
         self.explosion(cur_cir_i, cur_cir_j)
 
-        for j in xrange(0, self.cols):
+        for j in range(0, self.cols):
             if self.board[0][j].color != self.white:
                 self.check_explosion_floating(0, j)
         self.exploses_floating_circles()
